@@ -32,7 +32,7 @@ function setup() {
   player = Bodies.rectangle(250, playerBase.position.y - 160, 50, 180, options);
   World.add(world, player);
 
-  playerArcher = new PlayerArcher(325, 230, 75, 100, options);
+  playerArcher = new PlayerArcher(340, playerBase.position.y - 112, 120, 120, options);
   World.add(world, playerArcher);
 
   playerArrow = new PlayerArrow(325, 230, 100, 10, options);
@@ -56,7 +56,7 @@ function draw() {
 }
 
 function keyReleased(){
-  if(keyCode === SPACE_KEY){
+  if(keyCode === RIGHT_ARROW){
     playerArrow.shoot();
   }
 }

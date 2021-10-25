@@ -19,7 +19,7 @@ class PlayerArcher {
     var angle = this.body.angle;
     
     //add the code to move arrow up and down
-    if(keyIsDown(DOWN_ARROW) && this.angle < -70){
+    if(keyIsDown(DOWN_ARROW) && this.angle < -73){
       angle += 1;
       Matter.Body.setAngle(this.body, angle);
     }
