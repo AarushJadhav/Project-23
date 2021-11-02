@@ -5,13 +5,14 @@ const Constraint = Matter.Constraint;
 
 var engine, world;
 var canvas;
-var player, playerBase, playerArcher, playerArrow;
+var palyer, playerBase, playerArcher;
+var playerArrows = [];
+
 
 function preload() {
   backgroundImg = loadImage("./assets/background.png");
   baseimage = loadImage("./assets/base.png");
   playerimage = loadImage("./assets/player.png");
-  playerArcherimage = loadImage("./assets/playerArcher.png")
 }
 
 function setup() {
@@ -30,35 +31,57 @@ function setup() {
   World.add(world, playerBase);
 
   player = Bodies.rectangle(250, playerBase.position.y - 160, 50, 180, options);
-  World.add(world, player);
+  World.add(world,player)
 
-  playerArcher = new PlayerArcher(340, playerBase.position.y - 112, 120, 120, options);
-  World.add(world, playerArcher);
-
-  playerArrow = new PlayerArrow(325, 230, 100, 10, options);
-  World.add(world, playerArrow);
+  playerArcher = new PlayerArcher(
+    340,
+    playerBase.position.y - 112,
+    120,
+    120
+  );
 }
 
 function draw() {
   background(backgroundImg);
+
   Engine.update(engine);
-  image(baseimage,playerBase.position.x,playerBase.position.y,180,150);
-  image(playerimage,player.position.x,player.position.y,50,180);
+  image(baseimage,playerBase.position.x,playerBase.position.y,180,150)
+  image(playerimage,player.position.x,player.position.y,50,180)
+
+  playerArcher.display();
+
+  for (var i = 0; i < playerArrows.length; i++) {
+    if (playerArrows[i] !== undefined) {
+      playerArrows[i].display();
+    }
+  }
 
   // Title
   fill("#FFFF");
   textAlign("center");
   textSize(40);
   text("EPIC ARCHERY", width / 2, 100);
-
-  playerArcher.display();
-  playerArrow.display();
 }
 
-function keyReleased(){
-  if(keyCode === RIGHT_ARROW){
-    playerArrow.shoot();
+function keyPressed() {
+  if (keyCode === 32) {
+    var posX = playerArcher.body.position.x;
+    var posY = playerArcher.body.position.y;
+    var angle = playerArcher.body.angle;
+    //console.log(angle);
+
+    var arrow = new PlayerArrow(posX, posY, 100, 10, angle);
+
+    Matter.Body.setAngle(arrow.body, angle);
+    playerArrows.push(arrow);
   }
 }
 
-
+function keyReleased() {
+  if (keyCode === 32) {
+    if (playerArrows.length) {
+      var angle = playerArcher.body.angle;
+      playerArrows[playerArrows.length - 1].shoot(angle);
+    }
+  }
+}

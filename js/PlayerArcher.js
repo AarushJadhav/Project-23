@@ -11,20 +11,21 @@ class PlayerArcher {
     this.image = loadImage("./assets/playerArcher.png");
 
     World.add(world, this.body);
+
     Matter.Body.setAngle(this.body, -90); 
   }
 
   display() {
     var pos = this.body.position;
     var angle = this.body.angle;
-    
-    //add the code to move arrow up and down
-    if(keyIsDown(DOWN_ARROW) && this.angle < -73){
+
+    if (keyIsDown(DOWN_ARROW) && angle < -73 ) {
       angle += 1;
       Matter.Body.setAngle(this.body, angle);
     }
-    if(keyIsDown(UP_ARROW) && this.angle > -103){
-      angle -= 1;
+
+    if (keyIsDown(UP_ARROW) && angle > -103) {
+      angle -=1;
       Matter.Body.setAngle(this.body, angle);
     }
 
